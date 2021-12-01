@@ -5,7 +5,7 @@ const HEADERS = {
 
 const TIMEOUT = 5 * 1000;
 const RETRY_LIMIT = 5;
-// [ series | parallel ]
+// series | parallel
 const MODE = 'series';
 const QPS = 30;
 
