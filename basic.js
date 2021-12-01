@@ -13,7 +13,7 @@ const retries = new Map();
 
 const basic = function ({ code }) {
     return new Promise((resolve, reject) => {
-        const url = `https://fund.eastmoney.com/${code}.html`;
+        const url = `https://fund.eastmoney.com/${code}.html?spm=search`;
         const options = {
             HEADERS
         };
