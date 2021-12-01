@@ -6,10 +6,12 @@ const TIMEOUT = 5 * 1000;
 const RETRY_LIMIT = 5;
 // [ series | parallel ]
 const MODE = 'series';
+const QPS = 30;
 
 export {
     HEADERS,
     TIMEOUT,
     RETRY_LIMIT,
     MODE,
+    QPS
 };

@@ -5,7 +5,7 @@ import basic from "./basic.js";
 import holder from "./holder.js";
 import tariff from "./tariff.js";
 import classify from "./classify.js";
-import { MODE } from "./config.js";
+import { MODE, QPS } from "./config.js";
 
 const components = [basic, holder, tariff, classify];
 
@@ -26,23 +26,37 @@ const combine = async function (code, name, tags) {
     return result;
 };
 
+const delay = function (delay) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(resolve, delay);
+    });
+};
+
 const digger = async function (keyword, type) {
-    console.time(MODE);
     const list = await search(keyword, type);
     const output = fs.createWriteStream('output.txt');
     const total = list.length;
     let count = 0;
-    let promises = [];
 
     output.write(`${titles.join('\t')}\n`);
 
-    // TODO: 串行模式有QPS限制的问题，大概QPS 30
     if (MODE === 'parallel') {
-        promises = list.map(async ({ code, name }) => {
-            const item = await combine(code, name, titles.slice(2));
-            output.write(`${item.join('\t')}\n`);
-            console.log(`${count += 1}/${total} ${code}:${name} 处理完成`);
-        });
+        const limit = Math.ceil(total / QPS);
+
+        for (let i = 0; i < limit; i += 1) {
+            const start = i * QPS, end = start + QPS;
+            const flag = Date.now();
+            const promises = list.slice(start, end).map(async ({ code, name }) => {
+                const item = await combine(code, name, titles.slice(2));
+                output.write(`${item.join('\t')}\n`);
+                console.log(`${count += 1}/${total} ${code}:${name} 处理完成`);
+            });
+
+            await Promise.all(promises);
+            if (end < total) {
+                await delay(Math.max(0, 1100 - Date.now() + flag));
+            }
+        }
     } else {
         for (let { code, name } of list) {
             const item = await combine(code, name, titles.slice(2));
@@ -51,13 +65,13 @@ const digger = async function (keyword, type) {
         }
     }
 
-    await Promise.all(promises);
     output.end();
-    console.timeEnd(MODE);
 };
 
 const [, , ...args] = process.argv;
 
 if (args.length) {
-    digger(...args).catch(console.error);
+    console.time(MODE);
+    await digger(...args).catch(console.error);
+    console.timeEnd(MODE);
 }
