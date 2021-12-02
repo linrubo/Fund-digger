@@ -1,5 +1,7 @@
 import https from 'https';
 
+import morningstar from './morningstar.js';
+
 import { HEADERS, TIMEOUT, RETRY_LIMIT } from './config.js';
 
 const adapter = function (datas = []) {
@@ -35,6 +37,10 @@ const filter = function (datas = [], type = '') {
 const retries = new Map();
 
 const search = function (keyword, type) {
+    if (morningstar[keyword]) {
+        return  filter(morningstar[keyword], type) ;
+    }
+
     return new Promise((resolve, reject) => {
         const url = new URL('https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchPageAPI.ashx');
         url.searchParams.set('m', 1);
