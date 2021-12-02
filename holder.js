@@ -12,7 +12,7 @@ const holder = function ({ code }) {
         url.searchParams.set('rt', Math.random());
 
         const options = {
-            HEADERS
+            headers: HEADERS
         };
 
         const request = https.get(url, options);

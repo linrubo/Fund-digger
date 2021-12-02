@@ -43,7 +43,7 @@ const search = function (keyword, type) {
         url.searchParams.set('pagesize', Math.floor(Math.random() * 300 + 200));
 
         const options = {
-            HEADERS
+            headers: HEADERS
         };
 
         const request = https.get(url, options);

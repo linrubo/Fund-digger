@@ -8,7 +8,7 @@ const tariff = function ({ code }) {
     return new Promise((resolve, reject) => {
         const url = `https://fundf10.eastmoney.com/jjfl_${code}.html`;
         const options = {
-            HEADERS
+            headers: HEADERS
         };
 
         const request = https.get(url, options);
