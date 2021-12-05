@@ -12,7 +12,10 @@ const holder = function ({ code }) {
         url.searchParams.set('rt', Math.random());
 
         const options = {
-            headers: HEADERS
+            headers: {
+                ...HEADERS,
+                'Referer': `https://fundf10.eastmoney.com/cyrjg_${code}.html`,
+            }
         };
 
         const request = https.get(url, options);
