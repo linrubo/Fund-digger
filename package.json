@@ -1,6 +1,6 @@
 {
   "name": "fund-digger",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "type": "module",
   "main": "index.js",

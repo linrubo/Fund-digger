@@ -7,7 +7,8 @@ const TIMEOUT = 5 * 1000;
 const RETRY_LIMIT = 5;
 // series | parallel
 const MODE = 'series';
-const QPS = 30;
+// 最大值: 30
+const QPS = 20;
 
 export {
     HEADERS,

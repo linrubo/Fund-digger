@@ -31,7 +31,8 @@ const test = async function (component, keyword, type) {
             const flag = Date.now();
             const promises = list.slice(start, end).map(async ({ code, name }) => {
                 const result = await component({ code, name });
-                console.log(`${count += 1}/${total}`, `${code}:${name}`, JSON.stringify(result));
+                console.log(`${count += 1}/${total}`, `${code}:${name}`);
+                console.log(`${JSON.stringify(result)}\n`);
             });
 
             await Promise.all(promises);
@@ -42,7 +43,8 @@ const test = async function (component, keyword, type) {
     } else {
         for (let { code, name } of list) {
             const result = await component({ code, name });
-            console.log(`${count += 1}/${total}`, `${code}:${name}`, JSON.stringify(result));
+            console.log(`${count += 1}/${total}`, `${code}:${name}`);
+            console.log(`${JSON.stringify(result)}\n`);
         }
     }
 };
