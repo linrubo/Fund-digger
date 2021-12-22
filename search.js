@@ -38,7 +38,7 @@ const retries = new Map();
 
 const search = function (keyword, type) {
     if (morningstar[keyword]) {
-        return  filter(morningstar[keyword], type) ;
+        return filter(morningstar[keyword], type) ;
     }
 
     return new Promise((resolve, reject) => {

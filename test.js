@@ -49,10 +49,10 @@ const test = async function (component, keyword, type) {
     }
 };
 
-const [, , component, ...args] = process.argv;
+const [, , component, keyword, type] = process.argv;
 
-if (component && args.length) {
+if (component && keyword) {
     console.time(MODE);
-    await test(components[component], ...args).catch(console.error);
+    await test(components[component], keyword, type).catch(console.error);
     console.timeEnd(MODE);
 }

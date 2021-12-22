@@ -68,10 +68,10 @@ const digger = async function (keyword, type) {
     output.end();
 };
 
-const [, , ...args] = process.argv;
+const [, , keyword, type] = process.argv;
 
-if (args.length) {
+if (keyword) {
     console.time(MODE);
-    await digger(...args).catch(console.error);
+    await digger(keyword, type).catch(console.error);
     console.timeEnd(MODE);
 }
