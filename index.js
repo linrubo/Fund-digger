@@ -34,11 +34,11 @@ const delay = function (delay) {
 
 const digger = async function (keyword, type) {
     const list = await search(keyword, type);
-    const output = fs.createWriteStream('output.txt');
+    const output = fs.createWriteStream('output.csv');
     const total = list.length;
     let count = 0;
 
-    output.write(`${titles.join('\t')}\n`);
+    output.write(`\uFEFF${titles}\n`);
 
     if (MODE === 'parallel') {
         const limit = Math.ceil(total / QPS);
@@ -48,7 +48,7 @@ const digger = async function (keyword, type) {
             const flag = Date.now();
             const promises = list.slice(start, end).map(async ({ code, name }) => {
                 const item = await combine(code, name, titles.slice(2));
-                output.write(`${item.join('\t')}\n`);
+                output.write(`${item}\n`);
                 console.log(`${count += 1}/${total} ${code}:${name} 处理完成`);
             });
 
@@ -60,7 +60,7 @@ const digger = async function (keyword, type) {
     } else {
         for (let { code, name } of list) {
             const item = await combine(code, name, titles.slice(2));
-            output.write(`${item.join('\t')}\n`);
+            output.write(`${item}\n`);
             console.log(`${count += 1}/${total} ${code}:${name} 处理完成`);
         }
     }
