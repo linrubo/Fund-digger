@@ -6,7 +6,7 @@ const classes = {
         return name.match(/[ABC](?=\/[ABC])?/)?.[0] ?? '';
     },
     '特殊标签': name => {
-        return name.match(/(?:ETF|联接|增强|指数)(?!ETF|联接|增强|指数)/)?.[0] ?? '';
+        return ['联接', '增强', '指数', 'ETF'].filter(item => name.lastIndexOf(item) !== -1)[0] ?? '';
     }
 };
 
