@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { program } from 'commander';
-import { dig, search, detail, prices } from '../index.js';
+import { dig, search, detail, prices, returns } from '../index.js';
 
 program.name('fund')
     .version('1.0.0')
@@ -66,6 +66,16 @@ program.command('prices')
     .option('-r, --reverse', 'reverse order')
     .action(async (code, start, end, options) => {
         const result = await prices(code, start, end, options);
+        console.log(result.map(item => item.join('\t')).join('\n'));
+    });
+
+program.command('returns')
+    .description('get annual or quarterly fund returns')
+    .argument('<code>', 'fund code')
+    .option('-t, --type <year, quarter>', 'type of returns', 'year')
+    .option('-r, --reverse', 'reverse order')
+    .action(async (code, options) => {
+        const result = await returns(code, options);
         console.log(result.map(item => item.join('\t')).join('\n'));
     });
 
