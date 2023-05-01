@@ -1,6 +1,7 @@
 import search from './digger/search.js';
 import getDetails from './digger/details.js';
 import getNetAssetValue from './digger/nav.js';
+import getAnnualReturns from './digger/annual-returns.js';
 
 const titles = [
     '基金代码', '基金简称', '基金规模', '成立日期', '跟踪误差', '分红次数',
@@ -31,5 +32,6 @@ export {
     dig,
     search,
     getDetails,
-    getNetAssetValue
+    getNetAssetValue,
+    getAnnualReturns
 }
