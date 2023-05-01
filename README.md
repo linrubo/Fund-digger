@@ -26,3 +26,8 @@ fund detail 510300
 ```shell
 fund prices 510300
 ```
+
+基金回报，默认年度
+```shell
+fund returns 510300
+```

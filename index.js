@@ -3,6 +3,7 @@ import holder from "./digger/holder.js";
 import tariff from "./digger/tariff.js";
 import search from './digger/search.js';
 import prices from './digger/prices.js';
+import returns from './digger/returns.js';
 
 const diggers = [basic, tariff, holder];
 
@@ -44,5 +45,6 @@ export {
     digger,
     search,
     detail,
-    prices
+    prices,
+    returns
 }
