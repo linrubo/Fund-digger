@@ -3,6 +3,7 @@ import basic from './digger/basic.js';
 import fees from './digger/fees.js';
 import holder from './digger/holder.js';
 import prices from './digger/prices.js';
+import returns from './digger/returns.js';
 
 const combo = [basic, fees, holder];
 
@@ -44,5 +45,6 @@ export {
     dig,
     search,
     detail,
-    prices
+    prices,
+    returns
 }
