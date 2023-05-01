@@ -4,6 +4,21 @@ import { buildURL } from '../utils/api.js';
 const BASE_URL = 'https://fundf10.eastmoney.com/FundArchivesDatas.aspx';
 const NO_DATA_PLACEHOLDER = '---';
 
+const parseAnnualReturns = function (response) {
+    const values = response.match(/([\-\d\.]+%|\-+)(?=<\/td>)/g);
+    const years = response.match(/\d+(?=年)/g) ?? [];
+    const result = [];
+
+    years.forEach((year, index) => {
+        const value = values[index];
+        if (value !== NO_DATA_PLACEHOLDER) {
+            result.push([year, value]);
+        }
+    });
+
+    return result;
+};
+
 const parseStageReturns = function (response) {
     const result = {};
     const pattern = /<li class='title'>(\S+)<\/li><li [^>]+>([\-\d\.]+%|\-+)<\/li>/g;
@@ -17,6 +32,24 @@ const parseStageReturns = function (response) {
         }
 
         matched = pattern.exec(response);
+    }
+
+    return result;
+};
+
+const getAnnualReturns = async function (code, options = {}) {
+    const params = {
+        type: 'yearzf',
+        code: code,
+        rt: Math.random()
+    };
+    const url = buildURL(BASE_URL, params);
+    const referer = `https://fundf10.eastmoney.com/jndzf_${code}.html`;
+    const response = await request(url, referer);
+    const result = parseAnnualReturns(response);
+
+    if (options.reverse) {
+        result.reverse();
     }
 
     return result;
@@ -36,4 +69,4 @@ const getStageReturns = async function (code) {
     return result;
 };
 
-export { getStageReturns };
+export { getAnnualReturns, getStageReturns };
