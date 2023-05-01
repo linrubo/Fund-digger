@@ -1,0 +1,23 @@
+import request from '../lib/request.js';
+
+const patterns = {
+    '基金简称': /<title>(.+?)(?=\u0028\d{6}\u0029)/,
+    '基金规模': /规模\D+([\d\.]+)亿/,
+    '成立日期': /成\s*立\s*日\D+([\d\-]{10})<\/td>/,
+    '跟踪误差': /跟踪误差\D+([\d\.]+%)<\/td>/,
+    '分红次数': /总计分红[^>]+>\s*(\d+)<\/a>/,
+};
+
+const basic = async function (code) {
+    const url = `https://fund.eastmoney.com/${code}.html?spm=search`;
+    const response = await request(url);
+    const result = {};
+
+    Object.entries(patterns).forEach(([name, pattern]) => {
+        result[name] = response.match(pattern)?.[1] ?? '';
+    });
+
+    return result;
+};
+
+export default basic;
