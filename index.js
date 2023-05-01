@@ -3,6 +3,7 @@ import basic from './digger/basic.js';
 import stages from './digger/stages.js';
 import fees from './digger/fees.js';
 import holder from './digger/holder.js';
+import prices from './digger/prices.js';
 
 const combo = [basic, stages, fees, holder];
 
@@ -43,5 +44,6 @@ const dig = async function (keyword, options) {
 export {
     dig,
     search,
-    detail
+    detail,
+    prices
 }

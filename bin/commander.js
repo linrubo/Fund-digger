@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 
 import { program } from 'commander';
-import { dig, search, detail } from '../index.js';
+import { dig, search, detail, prices } from '../index.js';
 
 program.name('fund')
     .version('1.0.0')
@@ -54,6 +54,19 @@ program.command('detail')
     .action(async (code) => {
         const result = await detail(code);
         console.log(JSON.stringify(result, null, 4));
+    });
+
+program.command('prices')
+    .description('get daily, month-end or year-end fund prices')
+    .argument('<code>', 'fund code')
+    .option('-s, --start <date>', 'start date, format: yyyy-mm-dd')
+    .option('-e, --end <date>', 'end date, format: yyyy-mm-dd')
+    .option('-i, --interval <month, year>', 'interval frequency')
+    .option('-c, --cumulative', 'includes historical dividends')
+    .option('-r, --reverse', 'reverse order')
+    .action(async (code, start, end, options) => {
+        const result = await prices(code, start, end, options);
+        console.log(result.map(item => item.join('\t')).join('\n'));
     });
 
 program.parse();
