@@ -1,5 +1,6 @@
 import search from './digger/search.js';
 import getDetails from './digger/details.js';
+import getNetAssetValue from './digger/nav.js';
 
 const titles = [
     '基金代码', '基金简称', '基金规模', '成立日期', '跟踪误差', '分红次数',
@@ -29,5 +30,6 @@ const dig = async function (keyword, options) {
 export {
     dig,
     search,
-    getDetails
+    getDetails,
+    getNetAssetValue
 }
