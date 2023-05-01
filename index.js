@@ -2,6 +2,7 @@ import basic from "./digger/basic.js";
 import holder from "./digger/holder.js";
 import tariff from "./digger/tariff.js";
 import search from './digger/search.js';
+import prices from './digger/prices.js';
 
 const diggers = [basic, tariff, holder];
 
@@ -42,5 +43,6 @@ const digger = async function (keyword, options) {
 export {
     digger,
     search,
-    detail
+    detail,
+    prices
 }

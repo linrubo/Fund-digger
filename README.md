@@ -21,3 +21,8 @@ fund search 沪深300 -f 场外 A
 ```shell
 fund detail 510300
 ```
+
+基金净值，默认最近20天
+```shell
+fund prices 510300
+```
