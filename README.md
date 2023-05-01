@@ -31,3 +31,8 @@ fund prices 510300
 ```shell
 fund returns 510300
 ```
+
+基金分红记录
+```shell
+fund dividends 510300
+```
