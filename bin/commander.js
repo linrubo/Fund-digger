@@ -71,7 +71,7 @@ program.command('prices')
 program.command('returns')
     .description('get annual or quarterly fund returns')
     .argument('<code>', 'fund code')
-    .option('-t, --type <year, quarter, stage>', 'type of returns', 'year')
+    .option('-t, --type <year, quarter>', 'type of returns', 'year')
     .option('-r, --reverse', 'reverse order')
     .action(async (code, options) => {
         const result = await returns(code, options);

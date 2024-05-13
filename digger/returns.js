@@ -38,31 +38,12 @@ const quarterly = function (response) {
     return result;
 };
 
-const stages = function (response) {
-    const result = [];
-    const pattern = /<li class='title'>(?<title>\S+?)<\/li><li [^>]+>(?<value>[\-\d\.]+%|\-+)<\/li>/g
-    let matched = pattern.exec(response);
-
-    while (matched) {
-        const { title, value } = matched.groups;
-
-        if (value !== '---') {
-            result.push([title, value]);
-        }
-
-        matched = pattern.exec(response);
-    }
-
-    return result;
-};
-
 const returns = async function (code, options) {
     const referer = `https://fundf10.eastmoney.com/jndzf_${code}.html`;
     const url = new URL('https://fundf10.eastmoney.com/FundArchivesDatas.aspx');
     const types = {
         year: 'yearzf',
-        quarter: 'jdndzf',
-        stage: 'jdzf'
+        quarter: 'jdndzf'
     };
 
     url.searchParams.set('type', types[options.type] ?? 'yearzf');
@@ -75,9 +56,6 @@ const returns = async function (code, options) {
     switch (options.type) {
         case 'quarter':
             result = quarterly(response);
-            break;
-        case 'stage':
-            result = stages(response);
             break;
         default:
             result = yearly(response);
