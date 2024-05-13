@@ -1,16 +1,17 @@
 import search from './digger/search.js';
 import basic from './digger/basic.js';
+import stages from './digger/stages.js';
 import fees from './digger/fees.js';
 import holder from './digger/holder.js';
 import prices from './digger/prices.js';
 import returns from './digger/returns.js';
 import dividends from './digger/dividends.js';
 
-const combo = [basic, fees, holder];
+const combo = [basic, stages, fees, holder];
 
 const titles = [
-    '基金代码', '基金简称',
-    '基金规模', '成立日期', '跟踪误差', '分红次数', '近1年', '近3年',
+    '基金代码', '基金简称', '基金规模', '成立日期', '跟踪误差', '分红次数',
+    '今年来', '近1年', '近3年', '近5年',
     '申购费率', '运作费率',
     '机构持有', '个人持有', '内部持有',
 ];
