@@ -45,6 +45,7 @@ program.command('search')
     .action(async (keyword, options) => {
         const result = await search(keyword, options);
         console.log(result.map(({ code, name }) => [code, name].join('\t')).join('\n'));
+        console.log(`${result.length} funds were searched`);
     });
 
 program.command('detail')

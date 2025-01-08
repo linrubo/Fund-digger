@@ -10,6 +10,40 @@ const adapter = function (list) {
     });
 };
 
+const paging = async function (keyword, pageindex) {
+    const url = new URL('https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchPageAPI.ashx');
+
+    url.searchParams.set('m', 1);
+    url.searchParams.set('key', keyword);
+    url.searchParams.set('pageindex', pageindex);
+    url.searchParams.set('pagesize', 1000);
+    url.searchParams.set('_', Date.now());
+
+    const response = await request.get(url);
+
+    const result = JSON.parse(response)?.Datas ?? [];
+
+    return result;
+};
+
+const eastmoney = async function (keyword) {
+    const cache = [];
+    let pageindex = 0;
+
+    while (true) {
+        const item = await paging(keyword, pageindex);
+
+        if (item.length === 0) {
+            break;
+        }
+
+        cache.push(...item);
+        pageindex += 1;
+    }
+
+    return adapter(cache);
+};
+
 const filter = function (list, tags = [], expected = true) {
     const ETF_NAME_PATTERN = /(\u0028QDII\-)?ETF(\u0029|\u0028QDII\u0029)?$/;
     const ETF_CODE_PATTERN = /^(159|51[0-35-8]|56[0-3]|588)/;
@@ -47,39 +81,13 @@ const filter = function (list, tags = [], expected = true) {
     });
 };
 
-const getPageSize = async function (keyword) {
-    const url = new URL('https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchPageAPI.ashx');
-
-    url.searchParams.set('m', 0);
-    url.searchParams.set('key', keyword);
-    url.searchParams.set('_', Date.now());
-
-    const response = await request.get(url);
-
-    const data = JSON.parse(response)?.Datas ?? {};
-
-    return data.FundListTotalCount ?? 0;
-};
-
 const search = async function (keyword, options = { exclude: [] }) {
     let result;
 
     if (options.morningstar) {
         result = morningstar[keyword] ?? [];
     } else {
-        const pagesize = await getPageSize(keyword);
-        const url = new URL('https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchPageAPI.ashx');
-
-        url.searchParams.set('m', 1);
-        url.searchParams.set('key', keyword);
-        url.searchParams.set('pageindex', 0);
-        url.searchParams.set('pagesize', pagesize);
-        url.searchParams.set('_', Date.now());
-
-        const response = await request.get(url);
-
-        const data = JSON.parse(response)?.Datas ?? [];
-        result = adapter(data);
+        result = await eastmoney(keyword);
     }
 
     result = filter(result, ['后端', ...options.exclude], false);
