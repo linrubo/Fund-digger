@@ -67,10 +67,25 @@ const filter = function (list, tags = [], expected = true) {
                     state = LOF_CODE_PATTERN.test(code);
                     break;
                 case 'A':
-                    state = /A(?:\/B)?$/.test(name);
+                    state = /A(\/B|\W+)?$/.test(name);
+                    break;
+                case 'B':
+                    state = /[^\/]B$/.test(name);
                     break;
                 case 'C':
-                    state = /C$/.test(name);
+                    state = /C(\W+)?$/.test(name);
+                    break;
+                case 'D':
+                    state = /D(\W+)?$/.test(name);
+                    break;
+                case 'E':
+                    state = /E(\W+)?$/.test(name);
+                    break;
+                case 'I':
+                    state = /I(\W+)?$/.test(name);
+                    break;
+                case 'Y':
+                    state = /Y(\W+)?$/.test(name);
                     break;
                 default:
                     state = name.includes(tag);
